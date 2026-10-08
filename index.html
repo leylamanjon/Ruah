@@ -154,11 +154,29 @@ h3{font-size:14px;font-weight:700;line-height:1.35;letter-spacing:-.005em}
 .mlist p{color:var(--fg);max-width:60ch}
 
 /* frentes */
-.seg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
-.seg button{padding:11px 20px;border-radius:999px;background:var(--card);font-size:14px;font-weight:700;color:var(--fg);transition:.15s}
-.seg button:hover{color:var(--ac)}
+.seg{display:grid;grid-template-columns:300px minmax(0,1fr);grid-template-rows:repeat(4,auto) 1fr;column-gap:24px;row-gap:12px;align-items:start}
+.seg .fr{display:contents}
+.seg button{grid-column:1;position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center;padding:16px 18px;border-radius:var(--r);background:var(--card);color:var(--fg);cursor:pointer;transition:background .15s}
+.seg .fr:nth-child(1) button{grid-row:1}.seg .fr:nth-child(2) button{grid-row:2}.seg .fr:nth-child(3) button{grid-row:3}.seg .fr:nth-child(4) button{grid-row:4}
+.seg .fp{grid-column:2;grid-row:1 / span 5}
+.seg button:hover{background:var(--as)}
+.rsec.alt .seg button:hover{background:#fff}
+.seg .sn{grid-column:1;color:var(--mu)}
+.seg .st{grid-column:1;font-weight:700;line-height:1.3}
+.seg .sa{grid-column:2;grid-row:1 / span 2;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--as);color:var(--ac);transition:.15s;transform:rotate(-90deg)}
+.rsec.alt .seg .sa{background:#fff}
 .seg button.on{background:var(--ac);color:#fff}
-.areas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0 0}
+.seg button.on .sn{color:#fff}
+.seg button.on .sa{background:#fff;color:var(--ac)}
+@media (max-width:860px){
+  .seg{display:flex;flex-direction:column;align-items:stretch;gap:12px}
+  .seg .fr{display:block}
+  .seg .sa{transform:none}
+  .seg button{width:100%}
+  .seg button.on .sa{transform:rotate(180deg)}
+  .seg .fp{margin:12px 0 8px}
+}
+.areas{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:14px 0 0}
 .area{padding:20px}
 .area .ct{margin-bottom:6px}
 .area h3{font-size:14px}
@@ -179,6 +197,26 @@ h3{font-size:14px;font-weight:700;line-height:1.35;letter-spacing:-.005em}
 .gr.g3{min-height:240px;background:var(--ac);color:#fff}
 .gr.g3 .chip.dark{background:#fff;color:var(--ac)}
 .gr.g3 .chip.line{background:rgba(255,255,255,.16);color:#fff}
+/* cómo se conecta todo: flechas encadenadas */
+.chain{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin-top:4px}
+.chain .ar{display:flex;align-items:center;min-height:56px;padding:0 22px 0 26px;font-weight:700;color:var(--fg);
+  background:color-mix(in srgb,var(--as),var(--ac) calc(var(--k)*20%));
+  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%,16px 50%)}
+.chain li:first-child .ar{clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%);padding-left:18px;border-radius:12px 0 0 12px}
+.chain li:nth-child(n+5) .ar{color:#fff}
+.chain p{margin:12px 8px 0 26px;color:var(--fg)}
+.chain li:first-child p{margin-left:18px}
+@media (max-width:860px){
+  .chain{grid-template-columns:minmax(0,1fr);gap:0;position:relative;margin-top:10px}
+  .chain::before{content:"";position:absolute;left:11px;top:14px;bottom:14px;width:3px;background:var(--ln)}
+  .chain li{position:relative;padding:0 0 22px 44px}
+  .chain li:last-child{padding-bottom:0}
+  .chain li::before{content:"";position:absolute;left:0;top:2px;width:25px;height:25px;border-radius:50%;border:4px solid var(--band);
+    background:color-mix(in srgb,var(--as),var(--ac) calc(var(--k)*20%))}
+  .chain .ar,.chain li:first-child .ar{display:block;min-height:0;padding:0;background:none;clip-path:none;border-radius:0;color:var(--fg)}
+  .chain li:nth-child(n+5) .ar{color:var(--fg)}
+  .chain p,.chain li:first-child p{margin:2px 0 0}
+}
 /* equipo */
 .person{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px}
 .person .ini{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--as);color:var(--ac);font-size:14px;font-weight:700;flex:none}
@@ -263,7 +301,6 @@ h3{font-size:14px;font-weight:700;line-height:1.35;letter-spacing:-.005em}
   .mlist li{grid-template-columns:44px minmax(0,1fr);gap:4px 14px}
   .mlist p{grid-column:2}
   .g4{grid-template-columns:minmax(0,1fr)}
-  .seg button{flex:1 1 calc(50% - 10px);text-align:center;padding:10px 12px;font-size:14px}
   main{padding-inline:16px}
   #pager{right:12px;bottom:12px}
   #pager button{padding:0 9px}
@@ -290,9 +327,9 @@ h3{font-size:14px;font-weight:700;line-height:1.35;letter-spacing:-.005em}
   <div id="prog" aria-hidden="true"><i id="progBar"></i></div>
   <main id="mn"><div class="wrap" id="wrap"></div></main>
   <nav id="pager" aria-label="Navegar entre secciones">
-    <button id="pv" aria-label="Sección anterior"><span data-i="left"></span><span class="n" id="pvn"></span></button>
-    <span class="cur" aria-live="polite"><b id="pcn">00</b><small>/ 11</small></span>
-    <button id="nx" aria-label="Sección siguiente"><span class="n" id="nxn"></span><span data-i="right"></span></button>
+    <button id="pv" aria-label="Sección anterior"><span data-i="left"></span></button>
+    <span class="cur" aria-live="polite"><b id="pcn">00</b><small>/ 10</small></span>
+    <button id="nx" aria-label="Sección siguiente"><span data-i="right"></span></button>
   </nav>
 </div>
 
@@ -341,27 +378,19 @@ const tile=(n,cls='')=>`<span class="ic-tile ${cls}">${I(n,17)}</span>`;
 const chips=(a,cls='',sep)=>`<div class="chips">${a.map((t,i)=>(i&&sep?`<span class="sep">${sep}</span>`:'')+`<span class="chip ${cls}">${t}</span>`).join('')}</div>`;
 
 /* ---------- datos ---------- */
-const GROUPS=[
- {id:'g1',name:'Contexto',ic:'compass',ids:['antecedentes','objetivo','concepto']},
- {id:'g2',name:'La propuesta',ic:'layers',ids:['modelo','frentes','conexion']},
- {id:'g3',name:'Ejecución',ic:'steps',ids:['dinamica','equipo']},
- {id:'g4',name:'Condiciones',ic:'coin',ids:['inversion','comercial','pasos']}
-];
 const SECS={
- antecedentes:{nav:'Antecedentes',ic:'compass',title:'Antecedentes',lead:'Una marca con una propuesta propia, frente a una etapa que plantea decisiones de mayor escala.'},
- objetivo:{nav:'Objetivo de la propuesta',ic:'target',title:'Objetivo de la propuesta',lead:'Acompañar a RUAH en la estructuración de su siguiente etapa empresarial.'},
- concepto:{nav:'Concepto general',ic:'star',title:'Crecer sin perder la esencia',lead:'El paso de un emprendimiento a una empresa capaz de sostenerse más allá de quienes hoy toman cada decisión.'},
- modelo:{nav:'Modelo de acompañamiento',ic:'gear',title:'Modelo de acompañamiento',lead:'Nueve pasos, desde la búsqueda de ideas de inversión hasta la transferencia de herramientas al equipo de RUAH.'},
- frentes:{nav:'Frentes de acción',ic:'layers',title:'Frentes de acción',lead:'Cuatro frentes de trabajo, con las áreas que podrían intervenirse en cada uno.'},
- conexion:{nav:'Cómo se conecta todo',ic:'link',title:'Cómo se conecta todo',lead:'Cada frente sostiene al siguiente: de los cimientos de la empresa al crecimiento en nuevos mercados.'},
- dinamica:{nav:'Dinámica de trabajo',ic:'steps',title:'Dinámica de trabajo',lead:'Una metodología progresiva: del entendimiento de la situación actual a la implementación y la transferencia de herramientas.'},
- equipo:{nav:'Equipo',ic:'people',title:'Equipo',lead:'Un equipo multidisciplinario de KOINOR, articulado según las necesidades de cada etapa.'},
- inversion:{nav:'Inversión',ic:'coin',title:'Inversión',lead:'Se define con los frentes que RUAH priorice y el alcance que resulte del levantamiento inicial de información.'},
- comercial:{nav:'Consideraciones comerciales',ic:'list',title:'Consideraciones comerciales',lead:'Las condiciones bajo las que se desarrolla el acompañamiento.'},
- pasos:{nav:'Próximos pasos',ic:'flag',title:'Próximos pasos',lead:'La ruta desde esta presentación hasta el inicio del acompañamiento.'}
+ antecedentes:{nav:'Antecedentes',title:'Antecedentes'},
+ objetivo:{nav:'Objetivo de la propuesta',title:'Objetivo de la propuesta'},
+ concepto:{nav:'Concepto general',title:'Concepto general',lead:'Crecer sin perder la esencia'},
+ modelo:{nav:'Modelo de acompañamiento',title:'Modelo de acompañamiento',lead:'El acompañamiento se desarrollará mediante una metodología progresiva que permita avanzar desde el entendimiento de la situación actual hasta la implementación y transferencia de herramientas.'},
+ frentes:{nav:'Frentes de acción',title:'Frentes de acción'},
+ dinamica:{nav:'Dinámica de trabajo',title:'Dinámica de trabajo',lead:'El acompañamiento se desarrollará mediante una metodología progresiva que permita avanzar desde el entendimiento de la situación actual hasta la implementación y transferencia de herramientas.'},
+ equipo:{nav:'Equipo',title:'Equipo',lead:'El proyecto será acompañado por un equipo multidisciplinario KOINOR, articulado de acuerdo con las necesidades de cada etapa.'},
+ inversion:{nav:'Inversión',title:'Inversión',lead:'La inversión será definida de acuerdo con los frentes de trabajo priorizados conjuntamente con RUAH y el alcance específico determinado después del levantamiento inicial de información.'},
+ comercial:{nav:'Consideraciones comerciales',title:'Consideraciones comerciales'},
+ pasos:{nav:'Próximos pasos',title:'Próximos pasos'}
 };
-const ORDER=GROUPS.flatMap(g=>g.ids);
-const groupOf=id=>GROUPS.find(g=>g.ids.includes(id));
+const ORDER=['antecedentes','objetivo','concepto','modelo','frentes','dinamica','equipo','inversion','comercial','pasos'];
 const num=id=>ORDER.indexOf(id)+1;
 const pad=n=>String(n).padStart(2,'0');
 
@@ -372,34 +401,17 @@ B.antecedentes=()=>`
  <div class="ant">
    <figure class="photo"><img src="img/arbol.jpg" alt="Cacaotal con mazorcas verdes en el tronco"></figure>
    <div class="stack">
-     <div class="card">
-       <div class="ct">${tile('search')}<h3>Una propuesta diferenciada</h3></div>
-       <p>A partir de la primera reunión entre KOINOR y RUAH identificamos una marca que ha construido una propuesta diferenciada desde:</p>
-       ${chips(['El producto','El origen','Una manera particular de entender el chocolate'],'line')}
-     </div>
-     <div class="card">
-       <div class="ct">${tile('building')}<h3>Una lógica emprendedora</h3></div>
-       <p>Las decisiones de producto, comunicación, comercialización y crecimiento se tomaron de manera directa y circunstancial, según las necesidades que fueron surgiendo. Ese modelo permitió construir la empresa hasta su situación actual.</p>
-     </div>
-     <div class="card">
-       <div class="ct">${tile('route')}<h3>Una nueva etapa, con decisiones de mayor escala</h3></div>
-       ${chips(['Incrementar ventas','Ajustar precios','Invertir en nueva maquinaria','Trasladarse a instalaciones de mayor capacidad','Fortalecer su presencia comercial','Evaluar nuevos mercados'])}
-     </div>
-     <div class="card">
-       <div class="ct">${tile('star')}<h3>Atributos claros, expresión por elevar</h3></div>
-       <p>RUAH cuenta con atributos de marca definidos, pero no siempre se traducen de forma consistente en sus puntos de contacto.</p>
-       ${chips(['Humanidad','Belleza','Simplicidad','Honestidad'],'dark')}
-       <p class="lbl">Donde todavía no se traducen:</p>
-       ${chips(['Redes sociales','Materiales','Empaques','Espacios','Otros puntos de contacto'],'line')}
-       <p class="lbl">La transformación de emprendimiento a empresa contempla también que estos valores y atributos puedan crecer de manera que se visibilice la importancia que tiene la Responsabilidad Social Empresarial para RUAH, con su personal y con la sociedad.</p>
-     </div>
+     <div class="card"><p>A partir de la primera reunión sostenida entre KOINOR y RUAH identificamos una marca que ha construido una propuesta diferenciada desde el producto, el origen y una manera particular de entender el chocolate.</p></div>
+     <div class="card"><p>RUAH ha crecido bajo una lógica emprendedora, donde gran parte de las decisiones de producto, comunicación, comercialización y crecimiento han sido desarrolladas de manera directa y circunstancial de acuerdo con las necesidades que fueron surgiendo.</p></div>
+     <div class="card"><p>Este modelo permitió construir la empresa hasta su situación actual. Sin embargo, RUAH se encuentra frente a una nueva etapa que plantea decisiones de mayor escala: incrementar ventas, ajustar precios, invertir en nueva maquinaria, trasladarse a instalaciones de mayor capacidad, fortalecer su presencia comercial y evaluar nuevos mercados.</p></div>
+     <div class="card"><p>Paralelamente, se identifican oportunidades para elevar la expresión de la marca. RUAH cuenta con atributos claros: humanidad, belleza, simplicidad y honestidad. Pero estos no siempre se traducen consistentemente en sus redes sociales, materiales, empaques, espacios y diferentes puntos de contacto.</p><p>La transformación de emprendimiento a empresa contempla también que estos valores y atributos puedan crecer de manera que se visibilice la importancia que tiene la responsabilidad social empresarial para RUAH para con su personal y la sociedad.</p></div>
    </div>
  </div>`;
 
 B.objetivo=()=>`
  <div class="stack">
-   <div class="card soft"><p class="statement" style="margin:0">Acompañar a RUAH en la estructuración de su siguiente etapa empresarial, fortaleciendo su modelo de negocio, producto, marca, experiencia y desarrollo comercial, para construir una organización preparada para vender más y mejor, tomar decisiones con mayor criterio y acceder progresivamente a nuevas oportunidades de mercado.</p></div>
-   <p class="statement" style="margin:14px 0 4px;font-weight:700;font-size:14px">El objetivo no será crecer por crecer, sino construir una empresa capaz de responder:</p>
+   <div class="card soft"><p class="statement" style="margin:0">Acompañar a RUAH en la estructuración de su siguiente etapa empresarial, fortaleciendo su modelo de negocio, producto, marca, experiencia y desarrollo comercial para construir una organización preparada para vender más y mejor, tomar decisiones con mayor criterio y acceder progresivamente a nuevas oportunidades de mercado.</p></div>
+   <p style="margin:14px 0 0;font-weight:700">El objetivo no será crecer por crecer.<br>Será construir una empresa capaz de responder:</p>
    <div class="grid g3">${[
      ['flag','¿Dónde queremos llegar?'],['box','¿Qué necesitamos para hacerlo?'],['list','¿Qué debemos priorizar primero?'],
      ['cal','¿Cuándo debemos invertir?'],['compass','¿Qué mercados queremos desarrollar?'],['shield','¿Cómo crecemos sin perder lo que hace diferente a RUAH?']
@@ -409,74 +421,80 @@ B.objetivo=()=>`
 B.concepto=()=>`
  <div class="banner"><img src="img/manos.jpg" alt="Manos sosteniendo una mazorca de cacao abierta"></div>
  <div class="stack">
-   <div class="card soft"><p class="statement" style="margin:0">RUAH no necesita transformarse en otra marca para crecer. Necesita estructurar aquello que ya la hace valiosa y convertirlo en un sistema empresarial capaz de sostener su siguiente etapa.</p></div>
-   <p class="muted" style="margin:14px 0 0;font-size:14px">La transición que proponemos</p>
+   <div class="card soft"><p class="statement" style="margin:0">RUAH no necesita transformarse en otra marca para crecer.<br>Necesita estructurar aquello que ya la hace valiosa y convertirlo en un sistema empresarial capaz de sostener su siguiente etapa.</p></div>
+   <p style="margin:14px 0 0;font-weight:700">La transición que proponemos es:</p>
    <ol class="tlh">${[
-     ['Etapa 1','Emprendimiento',['Decisiones circunstanciales','Alta dependencia de los fundadores','Procesos informales','Crecimiento reactivo']],
-     ['Etapa 2','Estructuración',['Estrategia','Procesos','Criterios','Herramientas','Priorización','Capacidades']],
-     ['Etapa 3','Empresa',['Decisiones planificadas','Equipo articulado','Marca coherente','Modelo comercial','Crecimiento sostenible']],
-     ['Etapa 4','Empresa transferible','Una organización capaz de mantener su visión, conocimiento y forma de hacer las cosas más allá de las personas que actualmente toman cada decisión.']
-   ].map((c,i)=>`<li style="--k:${i}"><span class="dot">${i+1}</span><span class="chip dark">${c[0]}</span><h3>${c[1]}</h3>${
-     Array.isArray(c[2])?`<ul>${c[2].map(x=>`<li>${x}</li>`).join('')}</ul>`:`<p>${c[2]}</p>`}</li>`).join('')}</ol>
+     ['Emprendimiento',['Decisiones circunstanciales','Alta dependencia de los fundadores','Procesos informales','Crecimiento reactivo']],
+     ['Estructuración',['Estrategia','Procesos','Criterios','Herramientas','Priorización','Capacidades']],
+     ['Empresa',['Decisiones planificadas','Equipo articulado','Marca coherente','Modelo comercial','Crecimiento sostenible']],
+     ['Empresa transferible','Una organización capaz de mantener su visión, conocimiento y forma de hacer las cosas más allá de las personas que actualmente toman cada decisión.']
+   ].map((c,i)=>`<li style="--k:${i}"><span class="dot">${i+1}</span><h3>${c[0]}</h3>${
+     Array.isArray(c[1])?`<ul>${c[1].map(x=>`<li>${x}</li>`).join('')}</ul>`:`<p>${c[1]}</p>`}</li>`).join('')}</ol>
  </div>`;
 
-const MOD=[['Ideas de inversión','Búsqueda sistemática de ideas para nuevos productos o servicios, pensando en futuras inversiones.'],
+const MOD=[['Ideas de inversión','Se trata de la búsqueda sistemática de ideas para nuevos productos o servicios para futuras inversiones.'],
  ['Selección estratégica','Filtrado de ideas analizando factibilidad, rentabilidad y coherencia con la estrategia empresarial y de mercado.'],
- ['Conceptualización','Conversión de la idea en concepto e imagen. Diseño gráfico y prototipado de productos de consumo masivo.'],
- ['Modelo y plan de negocio','Costos, ventas estimadas, rentabilidad, punto de equilibrio y alineación con los objetivos estratégicos.'],
- ['Guías de comercialización y comunicación','Guías para arrancar o delegar y negociar con agencias de marketing, posicionamiento y comunicación inicial.'],
- ['Producción','Aprobación del prototipo funcional y producción masiva ajustada al plan de negocio y al plan de ejecución empresarial.'],
- ['Prueba de comercialización','Lanzamiento limitado del producto para observar su desempeño real y ajustar antes del lanzamiento masivo.'],
- ['Comercialización','Introducción oficial al mercado, campañas de lanzamiento y monitoreo de los resultados iniciales.'],
- ['Implementación y transferencia de herramientas','Sesiones con el equipo de RUAH para facilitar el uso de los manuales, modelos y herramientas desarrolladas.']];
+ ['Conceptualización','Conversión de la idea - concepto - Imagen. Diseño gráfico y prototipado de productos de consumo masivo.'],
+ ['Modelo y plan de negocio','Costos, ventas estimadas, rentabilidad, punto de equilibrio y alineación con objetivos estratégicos.'],
+ ['Guías de comercialización y comunicación','Guías para arrancar o delegar y negociar con agencias de marketing, posicionamiento, y comunicación inicial.'],
+ ['Producción','Aprobación de prototipo funcional y producción masiva ajustada al plan de negocio y al plan de ejecución empresarial.'],
+ ['Prueba de comercialización','Lanzamiento limitado del producto para observar desempeño real y ajustes antes del lanzamiento masivo.'],
+ ['Comercialización','Introducción oficial al mercado, campañas de lanzamiento y monitoreo de resultados iniciales.'],
+ ['Implementación y transferencia de herramientas','Se realizarán sesiones con el equipo Ruah para facilitar la utilización de los manuales, modelos y herramientas desarrolladas.']];
 B.modelo=()=>`
  <ol class="mlist">${MOD.map((m,i)=>`<li><span class="mn">${pad(i+1)}</span><h3>${m[0]}</h3><p>${m[1]}</p></li>`).join('')}</ol>
  <div class="card dark" style="margin-top:20px"><p style="margin:0">KOINOR acompaña el crecimiento, pero construye las capacidades para que RUAH pueda continuar desarrollándolo por cuenta propia.</p></div>`;
 
 const F=[
  {tab:'Desarrollo empresarial',intro:'De emprendimiento a empresa',
-  note:'Construir los cimientos empresariales que permitan a RUAH tomar decisiones de crecimiento de manera planificada y no circunstancial.',
+  notes:['El objetivo será construir los cimientos empresariales que permitan a RUAH tomar decisiones de crecimiento de manera planificada y no circunstancial.'],
   areas:[
    {i:'target',t:'Estrategia empresarial',chips:['Diagnóstico integral','Modelo de negocio','Objetivos','Priorización','Roadmap 1–3–5 años']},
    {i:'org',t:'Estructura empresarial',chips:['Organización','Roles','Responsabilidades','Procesos','Toma de decisiones','Herramientas de gestión']},
    {i:'compass',t:'Dirección ejecutiva',chips:['Acompañamiento en decisiones estratégicas','Mentoría','Seguimiento','Priorización de proyectos']},
    {i:'coin',t:'Finanzas',chips:['Costos','Márgenes','Rentabilidad','Pricing','Proyecciones','Flujo de caja','Escenarios']},
-   {i:'route',t:'Plan de inversión y crecimiento',p:'Evaluar estratégicamente decisiones como:',chips:['Nueva maquinaria','Nueva infraestructura','Desarrollo comercial'],sep:'o'},
+   {i:'route',t:'Plan de inversión y crecimiento',p:'Evaluar estratégicamente decisiones como:',chips:['Nueva maquinaria','Nueva infraestructura','Desarrollo comercial'],sep:'vs.'},
    {i:'shield',t:'Continuidad empresarial',chips:['Documentación','Procesos','Know-how','Cultura','Visión','Capacidades internas']},
    {i:'book',t:'Empresa heredable',p:'Construir una organización donde la visión permanezca aunque las personas cambien.'}]},
  {tab:'Producto y portafolio',intro:'Elevar el universo RUAH',
-  note:'RUAH ya tiene producto. El objetivo no es generar más referencias, sino optimizar y elevar el universo existente.',
+  notes:['RUAH ya tiene producto. El objetivo no debería ser generar indiscriminadamente más referencias, sino optimizar y elevar el universo existente.'],
   areas:[
    {i:'search',t:'Diagnóstico de portafolio',chips:['Productos','Líneas','Formatos','Rentabilidad','Rotación','Rol estratégico']},
-   {i:'target',t:'Optimización de producto',p:'Decidir qué hacer con cada producto:',chips:['Mantener','Mejorar','Reformular','Potenciar','Retirar']},
-   {i:'org',t:'Arquitectura de portafolio',p:'Ordenar el universo de producto:',chips:['Líneas','Categorías','Productos','Formatos','Ocasiones de consumo']},
+   {i:'target',t:'Optimización de producto',p:'Identificar qué mantener, mejorar, reformular, potenciar o retirar.'},
+   {i:'org',t:'Arquitectura de portafolio',p:'Ordenar líneas, categorías, productos, formatos y ocasiones de consumo.'},
    {i:'box',t:'Small batches',p:'Convertir la producción limitada en una herramienta estratégica. Puede funcionar para:',chips:['Innovación','Estacionalidad','Experimentación','Colaboraciones','Productos de origen','Ediciones especiales']},
-   {i:'spark',t:'Nuevos productos',p:'Crear nuevos productos cuando exista una oportunidad real de mercado y de negocio.'},
-   {i:'tag',t:'Pricing',p:'Construir una estrategia de precios coherente con los costos, el posicionamiento y el crecimiento, sobre todo frente a los ajustes que exige el incremento de costos.'}]},
+   {i:'spark',t:'Desarrollo de nuevos productos',p:'Crear nuevos productos cuando exista una oportunidad real de mercado y negocio.'},
+   {i:'tag',t:'Pricing',p:'Construir una estrategia de precios coherente con costos, posicionamiento y crecimiento, especialmente frente a los ajustes necesarios derivados del incremento de costos.'}]},
  {tab:'Marca y experiencia',intro:'Hacer tangible el universo RUAH',attrs:['Humano','Bello','Simple','Honesto'],
-  note:'No se trata de cambiar la esencia de RUAH, sino de construir más coherencia y más calidad en su expresión.',
+  notes:['El objetivo no sería cambiar la esencia de RUAH, sino construir mayor coherencia y calidad en su expresión.'],
   areas:[
    {i:'grid',t:'Identidad y universo gráfico',chips:['Auditoría de marca','Refinamiento del universo visual','Sistema gráfico','Dirección de arte','Fotografía','Ilustración','Tipografía','Aplicaciones']},
-   {i:'box',t:'Packaging',p:'Evolución y optimización del sistema de packaging.',chips:['Jerarquías','Calidad gráfica','Coherencia entre líneas','Información','Materiales','Acabados','Nuevos formatos']},
-   {i:'speak',t:'Redes sociales',p:'Lograr que el ecosistema digital vuelva a sentirse RUAH.',chips:['Concepto editorial','Dirección de arte','Storytelling','Fotografía','Calendario','Templates','Tono de voz','Uso responsable de IA','Guías de contenido']},
-   {i:'people',t:'Storytelling',chips:['Origen','Personas','Chocolate','Proceso','Ingredientes','Small batches','Oficio','Momentos','Creencias y valores, cuando la marca decida expresarlos']}]},
- {tab:'Desarrollo comercial',intro:'Vender más y mejor',
-  note:'Este frente transforma el fortalecimiento interno en crecimiento: dónde debería estar RUAH para aumentar a la vez ventas, posicionamiento y valor de marca.',
+   {i:'box',t:'Packaging',p:'Evolución y optimización del sistema de packaging RUAH:',chips:['Jerarquías','Calidad gráfica','Coherencia entre líneas','Información','Materiales','Acabados','Nuevos formatos']},
+   {i:'speak',t:'Redes sociales',p:'Lograr que el ecosistema digital vuelva a sentirse RUAH:',chips:['Concepto editorial','Dirección de arte','Storytelling','Fotografía','Calendario','Templates','Tono de voz','Uso responsable de IA','Guías de contenido']},
+   {i:'people',t:'Storytelling',chips:['Origen','Personas','Chocolate','Proceso','Ingredientes','Small batches','Creencias y valores cuando la marca decida expresarlos','Oficio','Momentos']}]},
+ {tab:'Desarrollo comercial y nuevos mercados',intro:'Vender más y mejor',
+  notes:['Este frente transforma el fortalecimiento interno en crecimiento.','Dónde debería estar RUAH para aumentar simultáneamente ventas, posicionamiento y valor de marca.'],
   areas:[
    {i:'cart',t:'B2B',chips:['Hoteles','Restaurantes','Cafeterías','Empresas','Gastronomía','Turismo','Regalos corporativos','Eventos']},
-   {i:'link',t:'Key partners',p:'Identificar socios que eleven el posicionamiento de la marca.'},
+   {i:'link',t:'Key partners',p:'Identificar socios que eleven su posicionamiento.'},
    {i:'tag',t:'Cross-branding',p:'Marcas bolivianas complementarias.'},
-   {i:'truck',t:'Experiencia y nuevos mercados',chips:['Catálogo de experiencias','Trade marketing y experiencia física','Nuevos mercados e internacionalización']}]}
+   {i:'star',t:'Catálogo de experiencias'},
+   {i:'truck',t:'Trade marketing y experiencia física'},
+   {i:'compass',t:'Nuevos mercados e internacionalización'}]}
 ];
 B.frentes=()=>`
- <div class="seg" id="seg" role="group" aria-label="Cuatro frentes">${F.map(f=>`<button>${f.tab}</button>`).join('')}</div>
- <div id="fpnl"></div>`;
-
-B.conexion=()=>`
- <div class="grid g3 flow">${[
-   ['org','Empresa','Construir los cimientos'],['box','Producto','Elevar lo que vendemos'],['grid','Marca','Elevar cómo lo expresamos'],
-   ['star','Experiencia','Elevar cómo se vive'],['cart','Mercado','Vender más y mejor'],['trend','Crecimiento','Nuevos canales, nuevos socios, nuevos mercados']
- ].map((r,i)=>`<div class="card ${i===5?'dark':''}"><div class="ct">${tile(r[0],i===5?'':'')}<span class="num">${pad(i+1)}</span></div><h3>${r[1]}</h3><p>${r[2]}</p></div>`).join('')}</div>`;
+ <p class="muted" style="margin:0 0 10px">Selecciona un frente para ver sus áreas de intervención</p>
+ <p class="muted" style="margin:0 0 10px">Selecciona un frente para ver sus áreas de intervención</p>
+ <div class="seg" id="seg" role="group" aria-label="Frentes">${F.map((f,i)=>`<div class="fr"><button aria-expanded="false"><span class="sn">Frente ${pad(i+1)}</span><span class="st">${f.tab}</span><span class="sa">${I('down',18,2)}</span></button><div class="fp" hidden>
+   <div class="card"><h3>${f.intro}</h3>${f.attrs?chips(f.attrs,'dark'):''}${f.notes.map(n=>`<p>${n}</p>`).join('')}</div>
+   <p class="muted" style="margin:20px 0 0">Posibles áreas de intervención</p>
+   <div class="areas">${f.areas.map(a=>`<div class="card area"><div class="ct">${tile(a.i)}<h3>${a.t}</h3></div>${a.p?`<p>${a.p}</p>`:''}${a.chips?chips(a.chips,'line',a.sep):''}</div>`).join('')}</div>
+ </div></div>`).join('')}</div>
+ <h3 style="margin:48px 0 14px">Cómo se conecta todo</h3>
+ <ol class="chain">${[
+   ['Empresa','Construir los cimientos'],['Producto','Elevar lo que vendemos'],['Marca','Elevar cómo lo expresamos'],
+   ['Experiencia','Elevar cómo se vive'],['Mercado','Vender más y mejor'],['Crecimiento','Nuevos canales · Nuevos socios · Nuevos mercados']
+ ].map((r,i)=>`<li style="--k:${i}"><span class="ar">${r[0]}</span><p>${r[1]}</p></li>`).join('')}</ol></div>`;
 P.trend='<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>';
 
 B.dinamica=()=>`
@@ -484,8 +502,7 @@ B.dinamica=()=>`
    ['Etapa I','Diagnóstico y definición'],
    ['Etapa II','Estructuración, desarrollo y acompañamiento'],
    ['Etapa III','Implementación y transferencia']
- ].map((s,i)=>`<div class="gr g${i+1}"><span class="chip dark">${s[0]}</span><h3>${s[1]}</h3></div>`).join('')}</div>
- <p class="muted" style="margin-top:16px;max-width:64ch">Cada etapa se apoya en lo aprendido en la anterior: primero entender dónde está RUAH, después construir con el equipo y, por último, dejar instaladas las herramientas.</p>`;
+ ].map((s,i)=>`<div class="gr g${i+1}"><span class="chip dark">${s[0]}</span><h3>${s[1]}</h3></div>`).join('')}</div>`;
 
 B.equipo=()=>`
  <div class="grid g3">${[['Ignacio Paniagua'],['Camila Terrazas'],['Jorge Zamora'],['Moira Riera'],['Daniel Careaga'],['Leonardo Pantoja'],['Abraham Velasco','Oveja'],['Leyla Manjón'],['Nicol Callau'],['Sebastián Montecinos']]
@@ -494,29 +511,26 @@ B.equipo=()=>`
 B.inversion=()=>`
  <div class="inv">
    <div class="stack">
-     <p class="muted" style="margin:0 0 2px;font-size:14px">El acompañamiento puede estructurarse como:</p>
-     <div class="card mode">${tile('layers','w')}Proyectos independientes</div>
-     <div class="card mode">${tile('route','w')}Fases de implementación</div>
-     <div class="card mode">${tile('cal','w')}Acompañamiento mensual</div>
+     <div class="card"><p>KOINOR podrá estructurar el acompañamiento mediante proyectos independientes, fases de implementación o un modelo de acompañamiento mensual, dependiendo de las necesidades y tiempos de la organización.</p></div>
+     <div class="card"><p>Cada frente seleccionado contará con su respectivo alcance, entregables, cronograma, equipo e inversión.</p></div>
    </div>
-   <div class="card dark price" style="display:flex;flex-direction:column;justify-content:center;padding:28px"><span class="k muted">Inversión mensual</span><p class="v" style="color:#fff;margin-top:10px">USD 1,650<span>por mes</span></p></div>
- </div>
- <p class="muted" style="margin:22px 0 0;font-size:14px">Cada frente que se seleccione tiene su propio:</p>
- ${chips(['Alcance','Entregables','Cronograma','Equipo','Inversión'],'line')}`;
+   <div class="card dark price" style="display:flex;flex-direction:column;justify-content:center;padding:28px"><span class="k muted">Inversión mensual</span><p class="v" style="color:#fff;margin-top:10px">USD 1650<span>/ mes</span></p></div>
+ </div>`;
 
 const COM=[
- ['shield','Alcance definitivo','Se establece después del levantamiento inicial de información.'],
- ['layers','Frentes progresivos','Los frentes se desarrollan de forma progresiva, según las prioridades que se identifiquen.'],
- ['people','Responsables en RUAH','RUAH designa a las personas que entregan información, participan en las mesas de trabajo y validan los avances.'],
- ['cal','Gantt de desarrollo','Los entregables y las herramientas se desarrollan según las prioridades establecidas en el Gantt.']];
+ 'El alcance definitivo será establecido después del levantamiento inicial de información.',
+ 'Los tres frentes podrán desarrollarse progresivamente de acuerdo con las prioridades identificadas',
+ 'RUAH designará a los responsables internos necesarios para proporcionar información, participar de las mesas de trabajo y validar los avances.',
+ 'Los entregables y herramientas serán desarrollados progresivamente de acuerdo con las prioridades establecidas en el Gantt de desarrollo.'];
 B.comercial=()=>`
- <div class="terms">${[['Inversión','USD 16,500'],['Periodo de acompañamiento','10 meses'],['Forma de pago','USD 1,650 mensuales'],['Tipo de cambio','Oficial del día']].map(t=>`<div><small>${t[0]}</small><b>${t[1]}</b></div>`).join('')}</div>
- <div class="grid g2">${COM.map(c=>`<div class="card"><div class="ct">${tile(c[0])}<h3>${c[1]}</h3></div><p>${c[2]}</p></div>`).join('')}
-   <a class="card req" href="https://docs.google.com/spreadsheets/d/1x5OW6iLZ0-aM_-TiAoeqz8Pq5Wlw5ijMXBOZhTLGYNA/edit?usp=sharing" target="_blank" rel="noopener"><div class="ct">${tile('list')}<h3>Requerimientos RUAH</h3></div><p>Lo que necesitamos de RUAH para empezar. Se abre en una hoja de cálculo.</p></a></div>`;
+ <div class="terms">${[['Inversión','USD 16,500'],['Periodo de acompañamiento','10 meses'],['Forma de pago','USD 1650 mensuales'],['Tipo de cambio','Oficial del día']].map(t=>`<div><small>${t[0]}</small><b>${t[1]}</b></div>`).join('')}</div>
+ <div class="grid g2">${COM.map(c=>`<div class="card"><p style="margin:0">${c}</p></div>`).join('')}
+   <a class="card req" href="https://docs.google.com/spreadsheets/d/1x5OW6iLZ0-aM_-TiAoeqz8Pq5Wlw5ijMXBOZhTLGYNA/edit?usp=sharing" target="_blank" rel="noopener"><h3 style="margin:0">REQUERIMIENTOS RUAH</h3></a>
+ </div>`;
 
 B.pasos=()=>`
- <ol class="tl">${['Presentación de la propuesta','Cuestionario ejecutivo','Levantamiento de información','Diagnóstico integral','Identificación de oportunidades','Priorización junto a RUAH','Roadmap estratégico','Alcance, cronograma e inversión','Inicio del acompañamiento']
-   .map((s,i)=>`<li class="${i===0?'here':''} ${i===8?'fin':''}"><span class="n">${i+1}</span><span><b>${s}</b>${i===0?'<span class="chip dark">Estamos aquí</span>':''}</span></li>`).join('')}</ol>
+ <ol class="tl">${['Presentación de propuesta KOINOR × RUAH','Cuestionario ejecutivo','Levantamiento de información','Diagnóstico integral','Identificación de oportunidades','Priorización junto a RUAH','Roadmap estratégico','Alcance + cronograma + inversión','Inicio del acompañamiento']
+   .map((s,i)=>`<li class="${i===0?'here':''} ${i===8?'fin':''}"><span class="n">${i+1}</span><span><b>${s}</b></span></li>`).join('')}</ol>
 </div>`;
 
 /* ---------- armado ---------- */
@@ -526,28 +540,27 @@ function build(){
     <div class="hero rv" style="--img:url(img/hero.jpg)" role="img" aria-label="Mazorcas de cacao rojas en el tronco y un productor al fondo">
       <div class="hero-ov"><div class="hero-in">
                 <h1>Estructurar para crecer sin perder la esencia</h1>
-        <p>Un acompañamiento para la siguiente etapa de RUAH: empresa, producto, marca, experiencia y mercado.</p>
+        <p>Propuesta: De emprendimiento a empresa</p>
       </div></div>
     </div>
     <nav class="toc rv" aria-label="Contenido">${ORDER.map(id=>`<a href="#${id}"><span><small>${pad(num(id))}</small><span class="tt">${SECS[id].nav}</span></span><span class="go">${I('arrow',16)}</span></a>`).join('')}</nav>
    </section>`;
-  const secs=ORDER.map(id=>{const s=SECS[id],g=groupOf(id);return `
+  const secs=ORDER.map(id=>{const s=SECS[id];return `
    <section class="rsec${num(id)%2===0?' alt':''}" id="${id}" data-id="${id}">
      <header class="sh rv"><div><h2><span class="n">${num(id)}.</span> ${s.title}</h2></div></header>
-     <p class="lead rv">${s.lead}</p>
+     ${s.lead?`<p class="lead rv">${s.lead}</p>`:''}
      <div class="rv">${B[id]()}</div>
    </section>`}).join('');
   $('#wrap').innerHTML=hero+secs;
 
-  /* frentes */
-  const seg=$$('#seg button'),pnl=$('#fpnl');
-  const showF=n=>{const f=F[n];
-    seg.forEach((b,j)=>{b.classList.toggle('on',n===j);b.setAttribute('aria-pressed',n===j)});
-    pnl.innerHTML=`<div class="card"><h3 style="font-size:14px">${f.intro}</h3>${f.attrs?chips(f.attrs,'dark'):''}<p style="font-size:14px">${f.note}</p></div>
-      <p class="muted" style="margin:20px 0 0;font-size:14px">Áreas que podrían intervenirse</p>
-      <div class="areas">${f.areas.map(a=>`<div class="card area"><div class="ct">${tile(a.i)}<h3>${a.t}</h3></div>${a.p?`<p>${a.p}</p>`:''}${a.chips?chips(a.chips,'line',a.sep):''}</div>`).join('')}</div>`;
-  };
-  seg.forEach((b,i)=>b.addEventListener('click',()=>showF(i)));showF(0);
+  /* frentes: lista a la izquierda + detalle a la derecha; acordeón en móvil */
+  const frs=$$('#seg .fr'),mq=matchMedia('(max-width:860px)');
+  const setF=(n,toggle)=>frs.forEach((fr,j)=>{
+    const b=$('button',fr),p=$('.fp',fr);
+    let on=j===n; if(on&&toggle&&b.classList.contains('on'))on=false;
+    b.classList.toggle('on',on);b.setAttribute('aria-expanded',on);p.hidden=!on});
+  frs.forEach((fr,i)=>$('button',fr).addEventListener('click',()=>setF(i,mq.matches)));
+  setF(0,false);
 
   $$('[data-i]').forEach(n=>n.innerHTML=I(n.dataset.i,20));
 }
@@ -561,8 +574,6 @@ function setup(){
     cur=i;
     const prev=i>0?i-1:null,next=i<ORDER.length?i+1:null;
     $('#pcn').textContent=pad2(i);
-    $('#pvn').textContent=prev===null?'':pad2(prev);
-    $('#nxn').textContent=next===null?'':pad2(next);
     $('#pv').disabled=prev===null;
     $('#nx').disabled=next===null;
     const nm=j=>j===0?'la portada':SECS[ORDER[j-1]].nav;
@@ -570,7 +581,7 @@ function setup(){
     $('#pv').title=prev===null?'':nm(prev);
     $('#nx').setAttribute('aria-label',next===null?'Última sección':'Ir a '+nm(next));
     $('#nx').title=next===null?'':nm(next);
-    $('#where').innerHTML=i===0?'':`${groupOf(ORDER[i-1]).name} · <b>${SECS[ORDER[i-1]].nav}</b>`;
+    $('#where').innerHTML=i===0?'':`<b>${SECS[ORDER[i-1]].nav}</b>`;
     try{history.replaceState(null,'',i?'#'+ORDER[i-1]:location.pathname+location.search)}catch(e){}
   };
   const goTo=i=>{const el=document.getElementById(IDS[i]);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})};
